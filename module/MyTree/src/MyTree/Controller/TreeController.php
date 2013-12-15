@@ -65,6 +65,15 @@ public function indexAction()
     {
         // Check if id set.
         $id = (int) $this->params()->fromRoute('id', 0);
+		$parent = 0;
+		if (isset($_POST['parent'])){
+			$parent = (int) $_POST['parent'];
+		}
+		
+		if ($id === $parent) {
+            $this->flashMessenger()->addErrorMessage('Невозможно назначить родителем');
+            return $this->redirect()->toRoute('tree');
+        }
         if (!$id) {
             $this->flashMessenger()->addErrorMessage('Tree id doesn\'t set');
             return $this->redirect()->toRoute('tree');
